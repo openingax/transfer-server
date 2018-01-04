@@ -79,4 +79,15 @@ FileManager.readMusic = function (path, callback) {
     })
 };
 
+FileManager.readDir = function(path, callback) {
+    fs.readdir(path, (error, files) => {
+        if (error) {
+            console.error(error);
+            callback(false, null)
+        } else {
+            callback(true, files);
+        }
+    })
+};
+
 module.exports = FileManager;

@@ -2,12 +2,24 @@ const fs = require('fs');
 const FileManager = require('./FileManager');
 const url = require('url');
 const querystring = require('querystring');     // post 方式必须导入的
+const express = require('express');
+const app = express();
+
+// 404 错误
+const errorData_404 = {
+    code: 404,
+    data: null
+};
 
 module.exports = {
     login: function (req, res) {
         res.writeHead(200, {'Content-Type': 'text/html; charset = utf-8'});
 
         // -------------- post 方式接收参数 -----------------
+        app.post('/login', (req, res) => {
+
+        });
+
         let post = '';
         req.on('data', (chunk) => {
             post += chunk;
@@ -22,40 +34,6 @@ module.exports = {
                 console.log('pwd: ' + pwdStr);
             }
         });
-
-
-
-        // -------------- get 方式接收参数 ------------------
-        // let userData = url.parse(req.url, true).query;
-        // if (userData['email'] !== undefined) {
-        //     console.log("email: " + userData['email']);
-        //     console.log("pwd: " + userData['pwd']);
-        //     FileManager.readFile('./html/MainPage.html', (isSuccess, data) => {
-        //         if (isSuccess) {
-        //             res.write(data);
-        //         } else {
-        //             res.write("登陆失败");
-        //         }
-        //         res.end('');
-        //     });
-        //
-        // } else {
-        //     FileManager.readFile('./html/Login.html', (isSuccess,data) => {
-        //         if (isSuccess) {
-        //             res.write(data);
-        //             res.end('');
-        //         } else {
-        //             FileManager.readFile('./html/ErrorPage.html', (isSuccess, data) => {
-        //                 if (isSuccess) {
-        //                     res.write(data);
-        //                 }
-        //                 res.end('');
-        //             })
-        //         }
-        //         // res.write() 报错是因为 res.end() （在 Main.js 页面）执行之后才执行 res.write();
-        //         console.log('主程序执行完毕');
-        //     })
-        // }
 
         FileManager.readFile('./html/Login.html', (isSuccess,data) => {
             if (isSuccess) {
@@ -94,8 +72,25 @@ module.exports = {
         })
     },
     music: function (req,res) {
-        res.writeHead(200, {'Content-Type': 'text/html; charset = utf-8'});
-
+        res.writeHead(200, { "Content-Type": "application/json;charset=utf-8" });
+        FileManager.readDir('../../../Music/网易云音乐', (isSuccess, files) => {
+            if (isSuccess) {
+                files.forEach((file) => {
+                    console.log(JSON.stringify(file));
+                    // res.write(JSON.stringify(file) + "\n");
+                    // res.json(JSON.stringify({code: 0, data: files}));
+                });
+                res.write(JSON.stringify({
+                    code: 0,
+                    data: files
+                }));
+                res.end('');
+            } else {
+                res.write(JSON.stringify(errorData_404));
+                res.end('');
+            }
+            // res.end('');
+        });
     },
     homepage: function (req, res) {
         res.writeHead(200, {'Content-Type': 'text/html; charset = utf-8'});
