@@ -6,9 +6,11 @@ var url = require('url');
 var Route = require('./models/Route');
 var FileManager = require('./models/FileManager');
 const fs = require('fs');
-
+var ProjectConfig = require('./ProjectConfig');
 var express = require('express');
 var app = express();
+
+
 
 // http.createServer(function (request, response) {
 //     if (request.url !== "/favicon.ico") {
@@ -35,7 +37,8 @@ let netObj = os.networkInterfaces();
 console.log('Server running at http://' + netObj.en0[1].address + ":" + 8000);
 
 // 公共资源文件夹
-app.use(express.static('../../../Music/网易云音乐'));
+// app.use(express.static('file'));
+app.use(express.static(ProjectConfig.musicDir));
 
 //  主页输出 "Hello World"
 app.get('/image', function (req, res) {
@@ -65,9 +68,6 @@ app.get('/ab*cd', function(req, res) {
 });
 
 var server = app.listen(8000, function () {
-
-    var host = server.address().address
-    var port = server.address().port
-
-    // console.log("应用实例，访问地址为 http://%s:%s", host, port)
+    let host = server.address().address;
+    let port = server.address().port;
 });

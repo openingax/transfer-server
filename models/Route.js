@@ -5,6 +5,8 @@ const querystring = require('querystring');     // post 方式必须导入的
 const express = require('express');
 const app = express();
 
+const ProjectConfig = require('../ProjectConfig');
+
 // 404 错误
 const errorData_404 = {
     code: 404,
@@ -73,7 +75,7 @@ module.exports = {
     },
     music: function (req,res) {
         res.writeHead(200, { "Content-Type": "application/json;charset=utf-8" });
-        FileManager.readDir('../../../Music/网易云音乐', (isSuccess, files) => {
+        FileManager.readDir(ProjectConfig.musicDir, (isSuccess, files) => {
             if (isSuccess) {
                 files.forEach((file) => {
                     console.log(JSON.stringify(file));
