@@ -84,7 +84,7 @@ module.exports = {
                 });
                 res.write(JSON.stringify({
                     code: 0,
-                    data: files
+                    list: files
                 }));
                 res.end('');
             } else {
@@ -98,7 +98,7 @@ module.exports = {
         res.writeHead(200, {'Content-Type': 'text/html; charset = utf-8'});
         res.write("I am home page");
     },
-    writefile: function (req,res) {
+    writeFile: function (req,res) {
         res.writeHead(200, {'Content-Type': 'text/html; charset = utf-8'});
         FileManager.writeFile('./html/one.txt', '我的文件',(isSuccess, error) => {
             if (!isSuccess) {
@@ -119,7 +119,7 @@ module.exports = {
             }
         });
     },
-    showimg: function (req, res) {
+    showImg: function (req, res) {
         res.writeHead(200, {'Content-Type': 'image/jpeg'});
 
         FileManager.readImg('./file/zcl.jpg', (isSuccess, img) => {
@@ -142,5 +142,12 @@ module.exports = {
                 console.log('加载音乐失败');
             }
         });
+    },
+    download: function (req, res) {
+
+        res.set({
+            "Content-type":"application/octet-stream",
+            "Content-Disposition":"attachment;filename="+encodeURI("song1.mp3"),
+        })
     }
 };
