@@ -57,6 +57,11 @@ app.get('/music', function (req, res) {
     Route['music'](req,res);
 });
 
+app.get('/song', function (req, res) {
+    console.log("/song 响应 get 请求");
+    Route['song'](req,res);
+});
+
 //  /list_user 页面 GET 请求
 app.get('/list_user', function (req, res) {
     console.log("/list_user GET 请求");

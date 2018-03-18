@@ -1,4 +1,4 @@
-const isHome = false;
+const isHome = true;
 
 module.exports = {
     baseURL: isHome? 'http://192.168.0.102:8000':'http://192.168.1.53:8000',
