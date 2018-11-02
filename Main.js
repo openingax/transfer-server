@@ -34,10 +34,10 @@ var app = express();
 // }).listen(8000);
 
 let netObj = os.networkInterfaces();
-console.log('Server running at http://' + netObj.en0[1].address + ":" + 8000);
+console.log('Server running at http://' +JSON.stringify(netObj) + ":" + 8000);
 
 // 公共资源文件夹
-// app.use(express.static('file'));
+app.use(express.static('file'));
 app.use(express.static(ProjectConfig.musicDir));
 
 //  主页输出 "Hello World"
