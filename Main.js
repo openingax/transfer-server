@@ -10,7 +10,10 @@ var ProjectConfig = require('./ProjectConfig');
 var express = require('express');
 var app = express();
 
+var router = express.Router();
 
+var multer = require('multer');
+var upload = multer({ dest: 'uploads/'}).single('file');
 
 // http.createServer(function (request, response) {
 //     if (request.url !== "/favicon.ico") {
@@ -39,12 +42,48 @@ console.log('Server running at http://' +JSON.stringify(netObj) + ":" + 8000);
 // 公共资源文件夹
 app.use(express.static('file'));
 app.use(express.static(ProjectConfig.musicDir));
+app.use(express.static('../../Movies'));
+app.use(express.static('../../../../Volumes/MacOS/Movie'));
+app.use(express.static('/Users/xieliying/Downloads'));
+// app.use(express.static('../../../../Volumes/MacOS/FFOutput/movie'));
 
 //  主页输出 "Hello World"
 app.get('/image', function (req, res) {
     Route['image'](req, res);
 });
 
+
+
+app.post('/upload', upload, function(req, res, next) {
+
+    // var url = global.baseURL + req.url;
+
+    var obj = req.file;
+    console.log('obj ====', obj);
+
+    var tmp_path = obj.path;
+    var new_path = "Music";
+
+    // upload(req, res, funciton(err) {
+    //     if (err) {
+    //         console.log('上传失败');
+    //     } else {
+    //         console.log('上传成功');
+    //     }
+    // });
+
+    upload(req, res, (err) => {
+        if (err) {
+            console.log("上传失败");
+        } else {
+            console.log("上传成功");
+        }
+    });
+
+    res.send({
+        'status': 'success'
+    });
+});
 
 //  POST 请求
 app.post('/', function (req, res) {
